@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kz-identifiers"
+version = "0.1.0"
+description = "Validation and generation of Kazakhstan identifiers: IIN/BIN (check digit), IBAN KZ (MOD-97), cards (Luhn), phones, passports"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.9"
+authors = [{ name = "kz-identifiers contributors" }]
+keywords = ["kazakhstan", "iin", "bin", "iban", "luhn", "pii", "dlp", "ner", "benchmark"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4", "build>=1", "twine>=4"]
+
+[project.urls]
+Homepage = "https://github.com/kz-ai/kz-identifiers"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
