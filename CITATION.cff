@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "kz-identifiers: validation and generation of Kazakhstan identifiers"
+version: 0.1.0
+date-released: 2026-10-11
+authors:
+  - family-names: "kz-identifiers contributors"
+license: Apache-2.0
+repository-code: "https://github.com/k1ddy/kz-identifiers"
+references:
+  - type: regulation
+    title: "Правила формирования идентификационного номера / Правила формирования бизнес-идентификационного номера"
+    authors:
+      - name: "Правительство Республики Казахстан"
+    institution:
+      - name: "НЦПС Әділет"
+    url: "https://adilet.zan.kz/rus/docs/V2300032918"
+  - type: standard
+    title: "ISO 13616-1 / ISO 7064 MOD-97-10 (IBAN)"
+  - type: standard
+    title: "ISO/IEC 7812 (Luhn)"
+  - type: software
+    title: "SWIFT IBAN Registry, entry KZ (National Bank of the Republic of Kazakhstan)"
+    url: "https://www.swift.com/resource/iban-registry-pdf"

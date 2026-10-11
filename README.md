@@ -192,6 +192,10 @@ All items below are reproducible via `pytest` — see
       (Kazakhtelecom, head + branch — facets decode correctly).
 - [x] IBAN/Luhn — cross-checked with `python-stdnum` (2000 valid + 300 mutations).
 - [x] Dead-prefix IIN (both cycles give 10) — rejected by all implementations.
+- [x] Эмпирические замеры (не оценки): случайное 12-значное проходит checksum в
+      **9.95 %** случаев при n=200 000; «мёртвый» префикс находится среди первых
+      кандидатов перебора. Формулировки «1/11» и «100 млн вариантов» из ранних
+      версий исправлены по этим замерам.
 - [ ] Passport structures — production regex; final adilet/MVD check planned for 0.2.
 
 Install the cross-check extras and run:
