@@ -13,6 +13,8 @@ External test vectors:
 
 import random
 
+import pytest
+
 from kz_identifiers import (
     generate_iban,
     generate_iin,
@@ -83,7 +85,9 @@ def test_registry_iban_vector():
     assert iban == "KZ86125KZT5004100100"
 
 
+@pytest.mark.crosscheck
 def test_reference_agrees_on_generated_iban():
+    """Сверка с python-stdnum: отдельным маркером, если пакет установлен."""
     try:
         from stdnum import iban as _si  # type: ignore
     except ImportError:
