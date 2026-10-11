@@ -4,15 +4,15 @@ import random
 import sys
 
 from kz_identifiers import (
+    generate_card,
     generate_iin,
     is_valid_iin_checksum,
     luhn_ok,
     normalize_phone,
-    parse_iin,
     parse_iban,
+    parse_iin,
     validate_iban,
     validate_iin,
-    generate_card,
 )
 
 
