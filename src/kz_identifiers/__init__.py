@@ -2,7 +2,7 @@
 
 Modules
 -------
-iin      — Individual Identification Number (ИИН), 12 digits, check digit (ДВУ РК)
+iin      — Individual Identification Number (ИИН), 12 digits, check digit (two-cycle per Правила РК)
 bin      — Business Identification Number (БИН), 12 digits, 5 facets, check digit
 iban     — IBAN for Kazakhstan (KZ2!n3!n13!c, 20 chars, MOD-97-10 / ISO 7064)
 cards    — payment cards (16 digits, Luhn / ISO/IEC 7812)
@@ -18,6 +18,7 @@ IBAN structure:  SWIFT IBAN Registry (National Bank of RK): KZ|20|KZ2!n3!n13!c.
 
 Standard library only. No network, no dependencies.
 """
+
 from .bin import (
     BinInfo,
     bin_check_digit,

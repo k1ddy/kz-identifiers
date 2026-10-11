@@ -1,0 +1,27 @@
+name: Bug report
+description: Сообщить об ошибке в алгоритме/валидации / Report a bug
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что произошло / What happened
+      description: Ожидаемое vs фактическое поведение
+    validations:
+      required: true
+  - type: input
+    id: value
+    attributes:
+      label: Значение / Value
+      description: Идентификатор, на котором воспроизводится (если не секретный)
+  - type: textarea
+    id: repro
+    attributes:
+      label: Воспроизведение / Reproduction
+      render: python
+  - type: input
+    id: version
+    attributes:
+      label: Версия / Version
+      placeholder: "0.1.0"

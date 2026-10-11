@@ -38,6 +38,7 @@ def test_gateway_regex_misses_real_iban():
 
 def test_random_iban_roundtrip():
     import random
+
     rng = random.Random(11)
     for _ in range(50):
         ib = random_iban(rng=rng)

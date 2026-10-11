@@ -10,6 +10,7 @@ External test vectors:
   BIN   250141018288 — филиал «Казахтелеком» (b2b.telecom.kz): a6=1
   IBAN  KZ86125KZT5004100100 — пример SWIFT IBAN Registry (НБ РК)
 """
+
 import random
 
 from kz_identifiers import (
@@ -71,7 +72,7 @@ def test_external_real_bin_vectors():
 def test_bin_mutations_rejected():
     for b in ("971240001315", "941240000193", "250141018288"):
         for pos in (0, 4, 5, 6, 11):
-            broken = b[:pos] + str((int(b[pos]) + 1) % 10) + b[pos + 1:]
+            broken = b[:pos] + str((int(b[pos]) + 1) % 10) + b[pos + 1 :]
             assert not validate_iin(broken, check_date=False)
             assert not _reference_checksum_ok(broken)
 

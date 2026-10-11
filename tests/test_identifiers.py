@@ -16,7 +16,7 @@ from kz_identifiers import (
 def test_luhn_known_vectors():
     assert luhn_ok("4111111111111111")
     assert not luhn_ok("4111111111111112")
-    assert not luhn_ok("41111111111111")      # 14 цифр
+    assert not luhn_ok("41111111111111")  # 14 цифр
     assert not luhn_ok("4111-1111-1111-111")  # 15 цифр
 
 
@@ -40,12 +40,12 @@ def test_phone_normalization():
 
 
 def test_passports_structural():
-    assert validate_kz_passport("012345678")   # 9 цифр
-    assert validate_kz_passport("01234567")    # 8 цифр (старый образец)
-    assert not validate_kz_passport("0123456") # 7 цифр — не паспорт РК
+    assert validate_kz_passport("012345678")  # 9 цифр
+    assert validate_kz_passport("01234567")  # 8 цифр (старый образец)
+    assert not validate_kz_passport("0123456")  # 7 цифр — не паспорт РК
     assert not validate_kz_passport("01234567890")
-    assert validate_kz_travel_passport("N1234567")     # буква + 7 цифр
-    assert validate_kz_travel_passport("A12 123456")   # серия + номер с разделителем
+    assert validate_kz_travel_passport("N1234567")  # буква + 7 цифр
+    assert validate_kz_travel_passport("A12 123456")  # серия + номер с разделителем
     assert validate_kz_travel_passport("A12123456")
     assert not validate_kz_travel_passport("1234567")
     assert not validate_kz_travel_passport("1234567")

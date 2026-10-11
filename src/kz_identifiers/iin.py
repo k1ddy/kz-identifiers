@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """ИИН — индивидуальный идентификационный номер (12 цифр, контрольный разряд).
 
 Структура ИИН (Правила формирования ИИН, adilet V2300032918):
@@ -9,11 +7,14 @@ from __future__ import annotations
     разряды 8-11 — порядковый номер;
     разряд 12    — контрольный.
 
-Контрольный разряд (два цикла, ДВУ РК):
+Контрольный разряд (два цикла, per Правила РК):
     a12 = (a1*1 + a2*2 + ... + a11*11) mod 11
     если 10 — пересчёт с весами 3,4,5,6,7,8,9,10,11,1,2;
     если снова 10 — такой номер не используется (невалиден).
 """
+
+from __future__ import annotations
+
 import calendar
 import datetime as _dt
 import random
@@ -23,9 +24,14 @@ _FIRST_WEIGHTS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
 _FALLBACK_WEIGHTS = (3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2)
 
 #: разряд 7 → (полный год столетия, пол)
-_CENTURY = {1: (1800, "male"), 2: (1800, "female"),
-            3: (1900, "male"), 4: (1900, "female"),
-            5: (2000, "male"), 6: (2000, "female")}
+_CENTURY = {
+    1: (1800, "male"),
+    2: (1800, "female"),
+    3: (1900, "male"),
+    4: (1900, "female"),
+    5: (2000, "male"),
+    6: (2000, "female"),
+}
 
 
 @dataclass(frozen=True)
@@ -79,16 +85,12 @@ def parse_iin(value: str, *, check_date: bool = True) -> IinInfo:
     base, sex = _CENTURY[century]
     year = base + d[0] * 10 + d[1]
     month, day = d[2] * 10 + d[3], d[4] * 10 + d[5]
-    date_valid = (
-        1 <= month <= 12
-        and 1 <= day <= calendar.monthrange(year, month)[1]
-    )
+    date_valid = 1 <= month <= 12 and 1 <= day <= calendar.monthrange(year, month)[1]
     if check_date and not date_valid:
         return IinInfo(iin=s, valid=False, sex=sex, serial=s[7:11])
     birth = _dt.date(year, month, day) if date_valid else None
     valid = checksum_ok and (date_valid or not check_date)
-    return IinInfo(iin=s, valid=valid, birth_date=birth, sex=sex,
-                   serial=s[7:11], check_digit=d[11])
+    return IinInfo(iin=s, valid=valid, birth_date=birth, sex=sex, serial=s[7:11], check_digit=d[11])
 
 
 def validate_iin(value: str, *, check_date: bool = True) -> bool:
@@ -112,7 +114,7 @@ def generate_iin(*, birth_date=None, sex=None, serial=None, rng=None) -> str:
     century_digit = {1800: (1, 2), 1900: (3, 4), 2000: (5, 6)}[(birth_date.year // 100) * 100]
     c = century_digit[0] if sex == "male" else century_digit[1]
     for _ in range(1000):
-        ser = (serial or f"{rng.randint(0, 9999):04d}")
+        ser = serial or f"{rng.randint(0, 9999):04d}"
         first11 = f"{birth_date.year % 100:02d}{birth_date.month:02d}{birth_date.day:02d}{c}{ser}"
         cd = iin_check_digit(first11)
         if cd is not None:

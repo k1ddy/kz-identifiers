@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """IBAN Казахстана: KZ2!n3!n13!c, 20 символов, контроль MOD-97-10 (ISO 7064).
 
 Структура (SWIFT IBAN Registry, National Bank of Kazakhstan):
@@ -14,11 +12,15 @@ from __future__ import annotations
 Проверка: переместить первые 4 символа в конец, заменить буквы числами
 (A=10 … Z=35), остаток от деления на 97 должен быть равен 1.
 """
+
+from __future__ import annotations
+
 import random
 import re
 from dataclasses import dataclass
 
 PATTERN = re.compile(r"^KZ\d{2}\d{3}[A-Z0-9]{13}$")
+
 
 @dataclass(frozen=True)
 class IbanInfo:

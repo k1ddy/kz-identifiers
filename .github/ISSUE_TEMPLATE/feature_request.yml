@@ -1,0 +1,21 @@
+name: Feature request
+description: Предложить новый тип идентификатора или функцию / Suggest a feature
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что добавить / What to add
+      description: Какой идентификатор или функция; ссылка на spec (adilet/SWIFT/ISO)
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Зачем / Why
+  - type: textarea
+    id: vectors
+    attributes:
+      label: Тест-векторы / Test vectors
+      description: Известные валидные/невалидные значения с источниками

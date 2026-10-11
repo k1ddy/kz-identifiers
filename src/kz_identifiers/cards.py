@@ -1,4 +1,5 @@
 """Банковские карты: 16 цифр, проверка по алгоритму Луна (ISO/IEC 7812)."""
+
 from __future__ import annotations
 
 import random

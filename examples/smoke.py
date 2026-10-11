@@ -26,8 +26,10 @@ def main() -> int:
 
     # checksum не зависит от «валидности даты»
     checksum_only = "000000300005"
-    print(f"checksum-only: {checksum_only} -> {is_valid_iin_checksum(checksum_only)}, "
-          f"validate_iin -> {validate_iin(checksum_only)}")
+    print(
+        f"checksum-only: {checksum_only} -> {is_valid_iin_checksum(checksum_only)}, "
+        f"validate_iin -> {validate_iin(checksum_only)}"
+    )
 
     iban = "KZ86125KZT5004100100"
     print(f"IBAN: {iban} valid={validate_iban(iban)} {parse_iban(iban)}")

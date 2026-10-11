@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """БИН — бизнес-идентификационный номер (12 цифр, 5 фасетов).
 
 Структура (Правила формирования БИН, adilet V2300032918):
@@ -11,6 +9,9 @@ from __future__ import annotations
     a7-a11 — порядковый номер регистрации (5 цифр);
     a12    — контрольный разряд (алгоритм тот же, что у ИИН).
 """
+
+from __future__ import annotations
+
 import datetime as _dt
 import random
 from dataclasses import dataclass
@@ -18,7 +19,13 @@ from dataclasses import dataclass
 from .iin import iin_check_digit
 
 ENTITY_TYPES = {4: "resident", 5: "non-resident", 6: "joint-individual-entrepreneur"}
-SUBDIVISIONS = {0: "head", 1: "branch", 2: "representative-office", 3: "farm-holding", 4: "farm-holding"}
+SUBDIVISIONS = {
+    0: "head",
+    1: "branch",
+    2: "representative-office",
+    3: "farm-holding",
+    4: "farm-holding",
+}
 
 
 @dataclass(frozen=True)
@@ -53,17 +60,22 @@ def parse_bin(value: str, *, strict_facets: bool = False) -> BinInfo:
     )
     if strict_facets and not facets_ok:
         return BinInfo(bin=s, valid=False)
-    return BinInfo(bin=s, valid=checksum_ok and facets_ok,
-                   registration_date=(2000 + year if year < 40 else 1900 + year, month),
-                   entity_type=etype, subdivision=subdiv, serial=s[6:11], check_digit=d[11])
+    return BinInfo(
+        bin=s,
+        valid=checksum_ok and facets_ok,
+        registration_date=(2000 + year if year < 40 else 1900 + year, month),
+        entity_type=etype,
+        subdivision=subdiv,
+        serial=s[6:11],
+        check_digit=d[11],
+    )
 
 
 def validate_bin(value: str, *, strict_facets: bool = False) -> bool:
     return parse_bin(value, strict_facets=strict_facets).valid
 
 
-def generate_bin(*, registered_on=None, entity_type=4, subdivision=0, serial=None,
-                 rng=None) -> str:
+def generate_bin(*, registered_on=None, entity_type=4, subdivision=0, serial=None, rng=None) -> str:
     """Сгенерировать валидный БИН. registered_on — date (по умолчанию случайная 2000..2026)."""
     rng = rng or random.Random()
     if registered_on is None:

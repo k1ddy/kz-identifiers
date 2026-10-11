@@ -35,7 +35,9 @@ def test_generated_iin_roundtrip():
 
 
 def test_parse_iin_date_and_sex():
-    info = parse_iin(generate_iin(birth_date=__import__("datetime").date(1990, 5, 17), sex="female"))
+    info = parse_iin(
+        generate_iin(birth_date=__import__("datetime").date(1990, 5, 17), sex="female")
+    )
     assert info.valid
     assert info.birth_date is not None and info.birth_date.year == 1990
     assert info.sex == "female"

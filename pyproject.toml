@@ -5,35 +5,97 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kz-identifiers"
 version = "0.1.0"
-description = "Validation and generation of Kazakhstan identifiers: IIN/BIN (check digit), IBAN KZ (MOD-97), cards (Luhn), phones, passports"
+description = "Validation, parsing and generation of Kazakhstan identifiers: IIN/BIN (check digit), IBAN KZ (MOD-97), payment cards (Luhn), phones, passports"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.9"
-authors = [{ name = "kz-identifiers contributors" }]
-keywords = ["kazakhstan", "iin", "bin", "iban", "luhn", "pii", "dlp", "ner", "benchmark"]
+authors = [
+    { name = "kz-identifiers contributors", email = "noreply@kz-identifiers.dev" },
+]
+maintainers = [{ name = "k1ddy" }]
+keywords = [
+    "kazakhstan", "kz", "iin", "bin", "iban", "luhn", "mod-97",
+    "pii", "dlp", "ner", "personal-data", "benchmark",
+]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Legal Industry",
     "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: Kazakh",
+    "Natural Language :: Russian",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
     "Topic :: Security",
-    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing",
+    "Typing :: Typed",
 ]
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "ruff>=0.4", "build>=1", "twine>=4"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.5",
+    "build>=1.1",
+    "twine>=5.0",
+]
+crosscheck = ["python-stdnum>=1.20"]
 
 [project.urls]
-Homepage = "https://github.com/kz-ai/kz-identifiers"
+Homepage = "https://github.com/k1ddy/kz-identifiers"
+Documentation = "https://github.com/k1ddy/kz-identifiers#readme"
+Repository = "https://github.com/k1ddy/kz-identifiers.git"
+Issues = "https://github.com/k1ddy/kz-identifiers/issues"
+Changelog = "https://github.com/k1ddy/kz-identifiers/releases"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q --strict-markers"
+markers = [
+    "crosscheck: optional cross-checks against python-stdnum (auto-skipped)",
+]
+
+[tool.coverage.run]
+source = ["kz_identifiers"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+exclude_also = ["if TYPE_CHECKING:", "raise NotImplementedError"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py39"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",    # pycodestyle
+    "F",         # pyflakes
+    "I",         # isort
+    "UP",        # pyupgrade
+    "B",         # bugbear
+    "C4",        # comprehensions
+    "SIM",       # simplify
+    "RUF",       # ruff-specific
+]
+ignore = [
+    "E501",      # длинные строки в docstrings/URLs контролирует line-length вручную
+    "RUF001",    # ambiguous unicode: кириллица в docstrings — намеренно (русскоязычная документация)
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]  # assert в тестах — ок

@@ -5,8 +5,10 @@ from kz_identifiers import bin_check_digit, generate_bin, parse_bin, validate_bi
 
 
 def test_bin_check_digit_same_rule_as_iin():
-    assert bin_check_digit("00122530123") == \
-        sum(int(d) * (i + 1) for i, d in enumerate("00122530123")) % 11
+    assert (
+        bin_check_digit("00122530123")
+        == sum(int(d) * (i + 1) for i, d in enumerate("00122530123")) % 11
+    )
 
 
 def test_generated_bin_roundtrip():
@@ -18,8 +20,11 @@ def test_generated_bin_roundtrip():
 
 
 def test_bin_facets():
-    info = parse_bin(generate_bin(registered_on=dt.date(2018, 3, 15), entity_type=4,
-                                  subdivision=1, serial="12345"))
+    info = parse_bin(
+        generate_bin(
+            registered_on=dt.date(2018, 3, 15), entity_type=4, subdivision=1, serial="12345"
+        )
+    )
     assert info.valid
     assert info.registration_date == (2018, 3)
     assert info.entity_type == 4
