@@ -92,11 +92,42 @@ generate_iban("125", "KZT5004100100")            # → 'KZ86125KZT5004100100'
 
 ## 5. Независимые реализации (кросс-проверка)
 
-| Реализация | Что проверено | Итог |
+Четыре реализации алгоритма ИИН/БИН и две эталона для IBAN/Луна:
+
+| Реализация | Язык | Что проверено | Итог |
+|---|---|---|---|
+| adilkhash gist (github) | Python | checksum ИИН/БИН | совпадает |
+| ZhymabekRoman/kz-iin-validator | Python | checksum + разбор | совпадает |
+| toleubekov/check-iin-kaz | Go | checksum + демография | совпадает |
+| alikhanmurzayev/ugcboost (`iinControl`) | Go | checksum двух циклов | совпадает |
+| `python-stdnum` (PyPI) | Python | IBAN MOD-97, Луна | 2000+300 согласны |
+
+Про `ugcboost`: его автор документирует ровно ту же границу, что и мы, —
+«rare prefixes whose checksum hits the 'both passes yield 10' corner are
+simply re-rolled». Независимое описание одной и той же границы — это ещё
+одно подтверждение спецификации.
+
+## 5b. Внешние векторы (номера, не сгенерированные нами)
+
+Тест: `tests/test_external_vectors.py`. Политика: настоящие ИИН не
+публикуются — отраслевое правило (adilet.kz: «ИИН физических лиц не
+отображается никогда»), которому следуют и коммерческие сервисы проверки
+контрагентов. Векторы берём только из случаев, где номер уже опубликован
+автором как пример.
+
+| Номер | Тип | Источник (provenance) |
 |---|---|---|
-| adilkhash gist (github), Python | checksum ИИН/БИН | совпадает |
-| ZhymabekRoman/kz-iin-validator (github) | checksum + разбор | совпадает |
-| `python-stdnum` (PyPI) | IBAN MOD-97, Луна | 2000+300 согласны |
+| 061211600012 | ИИН | ZhymabekRoman/kz-iin-validator README |
+| 251112401047, 700911204362 | ИИН | там же, примеры извлечения из текста |
+| 031231500126 | ИИН | toleubekov/check-iin-kaz README (Go) |
+| 850101123458 | ИИН | agatai20agatai-tech/kz-utils README.ru.md (TS) |
+| 971240001315 | БИН | ifin.kz / myqaz.kz — реквизиты Kaspi Bank |
+| 941240000193, 250141018288 | БИН | b2b.telecom.kz — реквизиты Казахтелекома |
+| 950440001673, 990940003030, 000640002067 | БИН | org-id.guide/list/KZ-BIN |
+
+Честное ограничение: публичными примерами покрыты фасеты тип 4 и
+подразделения 0/1; типы 5 (нерезидент) и 6 (ИП) публичными sourced-номерами
+не покрыты.
 
 ---
 
